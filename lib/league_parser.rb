@@ -14,7 +14,6 @@ class LeagueParser
       team_id = row[:team_id]
       team_name = row[:teamname]
       stadium = row[:stadium]
-
       Team.new(team_id, team_name, stadium)
     end
   end
