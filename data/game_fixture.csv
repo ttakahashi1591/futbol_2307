@@ -1,0 +1,33 @@
+game_id,season,type,date_time,away_team_id,home_team_id,away_goals,home_goals,venue,venue_link
+2012030221,20122013,Postseason,5/16/13,3,6,2,3,Toyota Stadium,/api/v1/venues/null
+2012030222,20122013,Postseason,5/19/13,3,6,2,3,Toyota Stadium,/api/v1/venues/null
+2012030223,20122013,Postseason,5/21/13,6,3,2,1,BBVA Stadium,/api/v1/venues/null
+2012030224,20122013,Postseason,5/23/13,6,3,3,2,BBVA Stadium,/api/v1/venues/null
+2012030225,20122013,Postseason,5/25/13,3,6,1,3,Toyota Stadium,/api/v1/venues/null
+2012030311,20122013,Postseason,6/2/13,6,5,3,0,Children's Mercy Park,/api/v1/venues/null
+2012030312,20122013,Postseason,6/4/13,6,5,4,1,Children's Mercy Park,/api/v1/venues/null
+2013020727,20132014,Regular Season,1/19/14,8,10,3,3,WakeMed Soccer Park,/api/v1/venues/null
+2013020010,20132014,Regular Season,10/4/13,18,19,2,2,Talen Energy Stadium,/api/v1/venues/null
+2013020920,20132014,Regular Season,3/4/14,29,10,2,1,WakeMed Soccer Park,/api/v1/venues/null
+2012020065,20122013,Regular Season,1/27/13,7,15,2,3,Providence Park,/api/v1/venues/null
+2012020003,20122013,Regular Season,1/19/13,16,26,3,2,Nippert Stadium,/api/v1/venues/null
+2014020466,20142015,Regular Season,12/18/14,25,23,2,0,Saputo Stadium,/api/v1/venues/null
+2014020287,20142015,Regular Season,11/21/14,16,20,2,3,BMO Field,/api/v1/venues/null
+2014020247,20142015,Regular Season,11/15/14,53,23,3,0,Saputo Stadium,/api/v1/venues/null
+2014020508,20142015,Regular Season,12/24/14,7,17,3,4,Dignity Health Sports Park,/api/v1/venues/null
+2014020817,20142015,Regular Season,2/13/15,20,26,3,3,Nippert Stadium,/api/v1/venues/null
+2013030114,20132014,Postseason,4/25/14,6,17,3,2,Dignity Health Sports Park,/api/v1/venues/null
+2013030115,20132014,Postseason,4/26/14,17,6,2,2,Toyota Stadium,/api/v1/venues/null
+2013030121,20132014,Postseason,4/16/14,8,14,3,2,Audi Field,/api/v1/venues/null
+2013030122,20132014,Postseason,4/18/14,8,14,2,1,Audi Field,/api/v1/venues/null
+2013030123,20132014,Postseason,4/20/14,14,8,2,3,Red Bull Arena,/api/v1/venues/null
+2013030124,20132014,Postseason,4/22/14,14,8,3,2,Red Bull Arena,/api/v1/venues/null
+2013021216,20132014,Regular Season,4/12/14,29,13,3,2,BBVA Stadium,/api/v1/venues/null
+2013020138,20132014,Regular Season,10/24/13,6,7,3,2,Rio Tinto Stadium,/api/v1/venues/null
+2013020929,20132014,Regular Season,3/5/14,5,18,3,1,Allianz Field,/api/v1/venues/null
+2013020820,20132014,Regular Season,2/1/14,19,12,1,3,Yurcak Field,/api/v1/venues/null
+2012020428,20122013,Regular Season,3/19/13,27,26,0,2,Nippert Stadium,/api/v1/venues/null
+2012020131,20122013,Regular Season,2/6/13,26,29,2,2,Exploria Stadium,/api/v1/venues/null
+2013020608,20132014,Regular Season,1/1/14,4,20,2,1,BMO Field,/api/v1/venues/null
+2013020004,20132014,Regular Season,10/2/13,10,4,3,1,SeatGeek Stadium,/api/v1/venues/null
+2012020337,20122013,Regular Season,3/7/13,28,20,1,2,BMO Field,/api/v1/venues/null
