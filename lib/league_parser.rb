@@ -6,7 +6,7 @@ class LeagueParser
 
   def initialize(teams)
     @teams = CSV.open "./data/teams.csv", headers: true, header_converters: :symbol
-    @teams_list = list_teams
+    @teams_list = []
   end
 
   def list_teams
@@ -14,7 +14,8 @@ class LeagueParser
       team_id = row[:team_id]
       team_name = row[:teamname]
       stadium = row[:stadium]
-      Team.new(team_id, team_name, stadium)
+      new_team = Team.new(team_id, team_name, stadium)
+      @teams_list << new_team
     end
   end
 end
