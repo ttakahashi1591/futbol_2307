@@ -7,7 +7,7 @@ class GameParser
   end
 
   def get_game_info
-    contents = CSV.open "./data/game_fixture.csv", headers: true, header_converters: :symbol
+    contents = CSV.open "./data/games.csv", headers: true, header_converters: :symbol
     contents.each do |row|
       game_id = row[:game_id]
       season = row[:season]
@@ -22,5 +22,24 @@ class GameParser
       @games << game
     end
     p @games.first
+  end
+
+  def highest_total_score
+    score = 0
+    @games.each do |game|
+      sum = game.away_goals.to_i + game.home_goals.to_i
+      if sum > score
+        score = sum
+      end
+    end
+    score
+  end
+
+  def lowest_total_score
+    result = @games.min_by do |game|
+      require 'pry';binding.pry
+      game.away_goals.to_i + game.home_goals.to_i
+    end
+    result.away_goals.to_i + result.home_goals.to_i
   end
 end
