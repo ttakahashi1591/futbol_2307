@@ -18,11 +18,9 @@ class GameParser
       away_goals = row[:away_goals]
       home_goals = row[:home_goals]
       venue = row[:venue]
-      # zipcode = clean_zipcode(row[:zipcode])
       game = Game.new(game_id, season, type, date_time, away_team_id, home_team_id, away_goals, home_goals, venue)
       @games << game
     end
     p @games.first
   end
-
 end
