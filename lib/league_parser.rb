@@ -15,7 +15,7 @@ class LeagueParser
       team_name = row[:teamname]
       stadium = row[:stadium]
 
-      # Team.new(team_id, team_name, stadium)
+      Team.new(team_id, team_name, stadium)
     end
   end
 end
