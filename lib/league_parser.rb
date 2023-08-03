@@ -20,9 +20,6 @@ class LeagueParser
   end
 
   def count_of_teams
-    # require 'pry'; binding.pry
     @teams_list.count
   end
-
-  def best_offense
 end
