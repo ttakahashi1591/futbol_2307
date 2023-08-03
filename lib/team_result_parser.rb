@@ -29,6 +29,32 @@ class TeamResultParser
       powerPlayGoals,faceOffWinPercentage,giveaways,takeaways)
       @game_data_by_team << game
     end
-    p @game_data_by_team.first.head_coach
+  end
+
+  def percentage_home_wins
+    home_wins = @game_data_by_team.count do |team|
+      team.hoa == "home" && team.result == "WIN"
+    end
+    home_games = @game_data_by_team.count do |team2|
+      team2.hoa == "home"
+    end
+    (home_wins.to_f / home_games.to_f).round(2)
+  end
+
+  def percentage_visitor_wins
+    away_wins = @game_data_by_team.count do |team|
+      team.hoa == "away" && team.result == "WIN"
+    end
+    away_games = @game_data_by_team.count do |team2|
+      team2.hoa == "away"
+    end
+    (away_wins.to_f / away_games.to_f).round(2)
+  end
+
+  def percentage_ties
+    tied_games = @game_data_by_team.count do |team|
+      team.result == "TIE"
+    end
+    (tied_games.to_f / @game_data_by_team.count.to_f).round(2)
   end
 end

@@ -13,4 +13,14 @@ RSpec.describe GameParser do
       expect(game_parser.lowest_total_score).to eq(0)
     end
   end
+
+  describe "#Highest and Lowest" do  
+    it "get the highest and lowest total scores" do
+      game_parser = GameParser.new
+      expect(game_parser).to be_a GameParser
+      game_parser.get_game_info
+      expect(game_parser.highest_total_score).to eq(11)
+      expect(game_parser.lowest_total_score).to eq(0)
+    end
+  end
 end
