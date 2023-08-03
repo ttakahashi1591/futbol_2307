@@ -26,7 +26,8 @@
 - SimpleCov gem checks for missing tests for methods and classes
 
 ### DTR
-- [DTR](https://docs.google.com/document/d/1KiedIvP1z-IqPeJrL9R8kRxMgWc1MSsMrAsipHaGqnY/edit?usp=sharing)
+- [DTR July 31st, 2023](https://docs.google.com/document/d/1KiedIvP1z-IqPeJrL9R8kRxMgWc1MSsMrAsipHaGqnY/edit?usp=sharing)
+- [DTR August 3, 2023](https://docs.google.com/document/d/1vRYFsW5Mr0kJ-Z8OerhzCheq0tIK1Z970lbi7TMnkI4/edit?usp=sharing)
 
 ### Collaborators
 - [Allan Evans](https://github.com/aevans27)
