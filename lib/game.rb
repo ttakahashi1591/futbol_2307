@@ -1,3 +1,6 @@
+# This class is pulling data from games.csv (or its fixture for testing purposes)
+# We will use game_id, season, away_team_id, hone_team_id, away_goals, home_goals
+
 class Game 
   attr_reader :game_id,
               :season,
