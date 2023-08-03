@@ -16,12 +16,13 @@ class LeagueParser
       new_team = Team.new(team_id, team_name, stadium)
       @teams_list << new_team
     end
-    p @teams_list
-  
+    @teams_list
   end
 
   def count_of_teams
-    require 'pry'; binding.pry
+    # require 'pry'; binding.pry
     @teams_list.count
   end
+
+  def best_offense
 end
