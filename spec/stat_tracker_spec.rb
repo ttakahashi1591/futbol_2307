@@ -19,7 +19,7 @@ RSpec.describe StatTracker do
   end
   
   describe "#initialize" do
-    it "initialize" do
+    it "exists" do
       stat_tracker = StatTracker.new
 
       expect(stat_tracker).to be_a(StatTracker)
