@@ -30,15 +30,15 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#offense" do
+  describe "#offense" do
     it "can find the best and worst offenses" do
-      league_parser = LeagueParser.new("")
+      league_parser = LeagueParser.new
       team_result_parser = TeamResultParser.new
 
       team_result_parser.get_game_info
       league_parser.list_teams
 
-      expect(team_result_parser.best_offense).to eq("Reign FC")
+      expect(team_result_parser.best_offense(league_parser.teams_list)).to eq("Reign FC")
     end
   end
 
@@ -123,6 +123,14 @@ RSpec.describe TeamResultParser do
                   54=>102}
 
       expect(team_result_parser.games_played_per_team).to eq(expected)
+    end
+
+    it "can find_best_offense_team_id" do
+      team_result_parser = TeamResultParser.new
+
+      team_result_parser.get_game_info
+
+      expect(team_result_parser.find_best_offense_team_id).to eq(54)
     end
   end
 end
