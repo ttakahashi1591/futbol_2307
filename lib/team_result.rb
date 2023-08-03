@@ -2,12 +2,35 @@
 # We need game_id, team_id, HoA, result, head_coach, goals, shots, tackles
 
 class TeamResult
-  attr_reader :game_id,:team_id,:hoa,:result,:settled_in,
-  :head_coach,:goals,:shots,:tackles,:pim,:powerPlayOpportunities,
-  :powerPlayGoals,:faceOffWinPercentage,:giveaways,:takeaways
-  def initialize(game_id,team_id,hoa,result,settled_in,
-    head_coach,goals,shots,tackles,pim,powerPlayOpportunities,
-    powerPlayGoals,faceOffWinPercentage,giveaways,takeaways)
+  attr_reader :game_id,
+              :team_id,
+              :hoa,:result,
+              :settled_in,
+              :head_coach,
+              :goals,
+              :shots,
+              :tackles,
+              :pim,
+              :powerPlayOpportunities,
+              :powerPlayGoals,
+              :faceOffWinPercentage,
+              :giveaways,
+              :takeaways
+  def initialize(game_id,
+                  team_id,
+                  hoa,
+                  result,
+                  settled_in,
+                  head_coach,
+                  goals,
+                  shots,
+                  tackles,
+                  pim,
+                  powerPlayOpportunities,
+                  powerPlayGoals,
+                  faceOffWinPercentage,
+                  giveaways,
+                  takeaways)
     @game_id = game_id
     @team_id = team_id
     @hoa = hoa
