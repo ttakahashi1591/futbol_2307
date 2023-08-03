@@ -3,7 +3,7 @@ require "csv"
 class LeagueParser
   attr_reader :teams_list
 
-  def initialize(teams)
+  def initialize
     @teams_list = []
   end
   
