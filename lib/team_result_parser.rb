@@ -121,11 +121,15 @@ class TeamResultParser
     goals_hash
   end
   
-  def find_best_offense_team_id #helper method
-    highest_team_goals = alltime_goals_per_team.max_by do |team_id, goals|
-    goals
+  def best_offense(teams)
+    best_offense = nil
+    teams.each do |team|
+      if team.team_id.to_i == find_best_offense_team_id
+        best_offense = team.team_name
+      end
     end
-    highest_team_goals.first
+    # require 'pry'; binding.pry
+    best_offense
   end
 
   def games_played_per_team #helper method
@@ -140,8 +144,16 @@ class TeamResultParser
       end
       counter += 1
     end
-    # require 'pry'; binding.pry
     games_played
+  end
+
+  def find_best_offense_team_id #helper method
+    a = alltime_goals_per_team
+    b = games_played_per_team
+
+    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
+  # require 'pry'; binding.pry
+    c.key(c.values.max)
   end
 
 
