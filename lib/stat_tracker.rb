@@ -1,5 +1,6 @@
 require './lib/game_parser'
 require './lib/team_result_parser'
+
 class StatTracker
 
   def initialize
