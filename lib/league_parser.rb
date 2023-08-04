@@ -18,4 +18,8 @@ class LeagueParser
     end
     @teams_list
   end
+
+  def count_of_teams
+    @teams_list.count
+  end
 end

@@ -77,4 +77,10 @@ class GameParser
     end
     group_hash
   end
+
+  def get_season_games(season_id)
+    season_games = @games.group_by do |game|
+      game.season == season_id
+    end
+  end
 end

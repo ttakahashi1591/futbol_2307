@@ -1,4 +1,5 @@
 GEM
+  remote: https://rubygems.org/
   specs:
     docile (1.4.0)
     simplecov (0.22.0)

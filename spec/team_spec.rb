@@ -17,5 +17,4 @@ RSpec.describe Team do
       expect(team.stadium).to eq("BBVA Stadium")
     end
   end
-
 end
