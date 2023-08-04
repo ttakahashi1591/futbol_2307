@@ -86,8 +86,8 @@ RSpec.describe TeamResultParser do
       team_result_parser.get_game_team_info(@game_teams_path)
       league_parser.list_teams(@team_path)
 
-      expect(team_result_parser.best_offense(league_parser.teams_list)).to eq("Reign FC")
-      expect(team_result_parser.worst_offense(league_parser.teams_list)).to eq("Utah Royals FC")
+      expect(team_result_parser.best_offense).to eq("Reign FC")
+      expect(team_result_parser.worst_offense).to eq("Utah Royals FC")
     end
   end
 
@@ -197,9 +197,8 @@ RSpec.describe TeamResultParser do
       league_parser = LeagueParser.new
 
       team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
 
-      expect(team_result_parser.highest_scoring_home_team(league_parser.teams_list)).to eq("Reign FC")
+      expect(team_result_parser.highest_scoring_home_team).to eq("Reign FC")
     end
 
     it "can return #lowest_scoring_home_team" do
@@ -207,9 +206,8 @@ RSpec.describe TeamResultParser do
       league_parser = LeagueParser.new
 
       team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
 
-      expect(team_result_parser.lowest_scoring_home_team(league_parser.teams_list)).to eq("Utah Royals FC")
+      expect(team_result_parser.lowest_scoring_home_team).to eq("Utah Royals FC")
     end
 
     it "can return #highest_scoring_visitor" do
@@ -217,9 +215,8 @@ RSpec.describe TeamResultParser do
       league_parser = LeagueParser.new
 
       team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
 
-      expect(team_result_parser.highest_scoring_visitor(league_parser.teams_list)).to eq("FC Dallas")
+      expect(team_result_parser.highest_scoring_visitor).to eq("FC Dallas")
     end
 
     it "can return #lowest_scoring_visitor" do
@@ -227,9 +224,8 @@ RSpec.describe TeamResultParser do
       league_parser = LeagueParser.new
 
       team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
 
-      expect(team_result_parser.lowest_scoring_visitor(league_parser.teams_list)).to eq("San Jose Earthquakes")
+      expect(team_result_parser.lowest_scoring_visitor).to eq("San Jose Earthquakes")
     end
   end
 

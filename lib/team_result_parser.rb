@@ -1,9 +1,12 @@
 require "csv"
-require './lib/team_result'
+require_relative './team_result'
+require_relative './league_parser'
 class TeamResultParser
   attr_reader :game_data_by_team
   def initialize
     @game_data_by_team = []
+    @league_parser = LeagueParser.new
+    @team_path = './data/teams.csv'
   end
 
   def get_game_team_info(game_teams_path)
@@ -132,19 +135,22 @@ class TeamResultParser
     goals_hash
   end
   
-  def best_offense(teams)
+  def best_offense
     best_offense = nil
+    @league_parser.list_teams(@team_path)
+    teams = @league_parser.get_team_list
     teams.each do |team|
       if team.team_id.to_i == find_best_offense_team_id
         best_offense = team.team_name
       end
     end
-    # require 'pry'; binding.pry
     best_offense
   end
 
-  def worst_offense(teams)
+  def worst_offense
     worst_offense = nil
+    @league_parser.list_teams(@team_path)
+    teams = @league_parser.get_team_list
     teams.each do |team|
       if team.team_id.to_i == find_worst_offense_team_id
         worst_offense = team.team_name
@@ -187,8 +193,10 @@ class TeamResultParser
     c.key(c.values.min)
   end
 
-  def highest_scoring_home_team(teams)
+  def highest_scoring_home_team
     best_home_team = nil
+    @league_parser.list_teams(@team_path)
+    teams = @league_parser.get_team_list
     teams.each do |team|
       if team.team_id.to_i == highest_scoring_home_team_id
         best_home_team = team.team_name
@@ -197,8 +205,10 @@ class TeamResultParser
     best_home_team
   end
 
-  def lowest_scoring_home_team(teams)
+  def lowest_scoring_home_team
     worst_home_team = nil
+    @league_parser.list_teams(@team_path)
+    teams = @league_parser.get_team_list
     teams.each do |team|
       if team.team_id.to_i == lowest_scoring_home_team_id
         worst_home_team = team.team_name
@@ -207,8 +217,10 @@ class TeamResultParser
     worst_home_team
   end
 
-  def highest_scoring_visitor(teams)
+  def highest_scoring_visitor
     best_visiting_team = nil
+    @league_parser.list_teams(@team_path)
+    teams = @league_parser.get_team_list
     teams.each do |team|
       if team.team_id.to_i == highest_scoring_visiting_team_id
         best_visiting_team = team.team_name
@@ -217,8 +229,10 @@ class TeamResultParser
     best_visiting_team
   end
 
-  def lowest_scoring_visitor(teams)
+  def lowest_scoring_visitor
     worst_visiting_team = nil
+    @league_parser.list_teams(@team_path)
+    teams = @league_parser.get_team_list
     teams.each do |team|
       if team.team_id.to_i == lowest_scoring_visiting_team_id
         worst_visiting_team = team.team_name

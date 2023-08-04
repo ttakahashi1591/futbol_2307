@@ -1,5 +1,5 @@
 require "csv"
-require "./lib/team"
+require_relative "./team"
 
 class LeagueParser
   attr_reader :teams_list
@@ -22,5 +22,9 @@ class LeagueParser
 
   def count_of_teams
     @teams_list.count
+  end
+
+  def get_team_list
+    @teams_list
   end
 end
