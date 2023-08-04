@@ -132,6 +132,17 @@ class TeamResultParser
     best_offense
   end
 
+  def worst_offense(teams)
+    worst_offense = nil
+    teams.each do |team|
+      if team.team_id.to_i == find_worst_offense_team_id
+        worst_offense = team.team_name
+      end
+    end
+    # require 'pry'; binding.pry
+    worst_offense
+  end
+
   def games_played_per_team #helper method
     games_played = Hash.new(0)
     counter = 1
@@ -154,6 +165,15 @@ class TeamResultParser
     c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
   # require 'pry'; binding.pry
     c.key(c.values.max)
+  end
+
+  def find_worst_offense_team_id #helper method
+    a = alltime_goals_per_team
+    b = games_played_per_team
+
+    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
+  # require 'pry'; binding.pry
+    c.key(c.values.min)
   end
 
 

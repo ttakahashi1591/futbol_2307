@@ -39,6 +39,7 @@ RSpec.describe TeamResultParser do
       league_parser.list_teams
 
       expect(team_result_parser.best_offense(league_parser.teams_list)).to eq("Reign FC")
+      expect(team_result_parser.worst_offense(league_parser.teams_list)).to eq("Utah Royals FC")
     end
   end
 
@@ -131,6 +132,14 @@ RSpec.describe TeamResultParser do
       team_result_parser.get_game_info
 
       expect(team_result_parser.find_best_offense_team_id).to eq(54)
+    end
+
+    it "can find_best_worst_team_id" do
+      team_result_parser = TeamResultParser.new
+
+      team_result_parser.get_game_info
+
+      expect(team_result_parser.find_worst_offense_team_id).to eq(7)
     end
   end
 end
