@@ -2,6 +2,10 @@ require './lib/game'
 require './lib/game_parser'
 
 RSpec.describe GameParser do
+  before(:all) do
+    @game_path = './data/games.csv'
+  end
+
   describe "#Initialize" do  
     it "Exists and gets attributes" do
       game_parser = GameParser.new
@@ -9,7 +13,7 @@ RSpec.describe GameParser do
       expect(game_parser).to be_a GameParser
       expect(game_parser.games).to eq([])
 
-      game_parser.get_game_info
+      game_parser.get_game_info(@game_path)
 
       expect(game_parser.highest_total_score).to eq(11)
       expect(game_parser.lowest_total_score).to eq(0)
@@ -22,7 +26,7 @@ RSpec.describe GameParser do
 
       expect(game_parser).to be_a GameParser
 
-      game_parser.get_game_info
+      game_parser.get_game_info(@game_path)
 
       expect(game_parser.highest_total_score).to eq(11)
       expect(game_parser.lowest_total_score).to eq(0)
@@ -35,7 +39,7 @@ RSpec.describe GameParser do
 
       expect(game_parser).to be_a GameParser
 
-      game_parser.get_game_info
+      game_parser.get_game_info(@game_path)
       
     expected = {
       "20122013"=>806,
@@ -55,7 +59,7 @@ RSpec.describe GameParser do
 
       expect(game_parser).to be_a GameParser
 
-      game_parser.get_game_info
+      game_parser.get_game_info(@game_path)
       
       expect(game_parser.average_goals_per_game).to eq (4.22)
   

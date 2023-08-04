@@ -6,8 +6,8 @@ class TeamResultParser
     @game_data_by_team = []
   end
 
-  def get_game_info
-    contents = CSV.open "./data/game_teams.csv", headers: true, header_converters: :symbol
+  def get_game_team_info(game_teams_path)
+    contents = CSV.open game_teams_path, headers: true, header_converters: :symbol
     contents.each do |row|
       game_id = row[:game_id]
       team_id = row[:team_id]
@@ -67,6 +67,7 @@ class TeamResultParser
         end
       end
     end
+    # Add default value for hash (Hash.new(0))
     coach_played = {}
     games_played.each do |play|
       if coach_played[play.head_coach] == nil
@@ -87,6 +88,7 @@ class TeamResultParser
       end
     end
     win_percent = {}
+    #.merge with hashes
     coach_played.each do |play_k, play_v|
       coach_win.each do |win_k, win_v|
         if play_k == win_k

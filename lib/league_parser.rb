@@ -1,4 +1,5 @@
 require "csv"
+require "./lib/team"
 
 class LeagueParser
   attr_reader :teams_list
@@ -7,8 +8,8 @@ class LeagueParser
     @teams_list = []
   end
   
-  def list_teams
-    contents = CSV.open "./data/teams.csv", headers: true, header_converters: :symbol
+  def list_teams(team_path)
+    contents = CSV.open team_path, headers: true, header_converters: :symbol
     contents.each do |row|
       team_id = row[:team_id]
       team_name = row[:teamname]

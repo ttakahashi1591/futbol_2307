@@ -5,6 +5,12 @@ require './lib/league_parser'
 require './lib/team'
 
 RSpec.describe TeamResultParser do
+  before(:all) do
+    @game_path = './data/games.csv'
+    @game_teams_path = './data/game_teams.csv'
+    @team_path = './data/teams.csv'
+  end
+
   describe "#Initialize" do
     it "Exists and gets attribute" do
       team_result_parser = TeamResultParser.new
@@ -12,7 +18,7 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser).to be_a TeamResultParser
       expect(team_result_parser.game_data_by_team).to eq([])
 
-      team_result_parser.get_game_info
+      team_result_parser.get_game_team_info(@game_teams_path)
 
       expect(team_result_parser.game_data_by_team.first.team_id).to eq("3")
     end
@@ -23,7 +29,7 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       expect(team_result_parser).to be_a TeamResultParser
 
-      team_result_parser.get_game_info
+      team_result_parser.get_game_team_info(@game_teams_path)
       
       expect(team_result_parser.percentage_home_wins).to eq(0.44)
       expect(team_result_parser.percentage_visitor_wins).to eq(0.36)
@@ -34,10 +40,10 @@ RSpec.describe TeamResultParser do
   describe "#get_win_percentage" do
     it "provides a hash with coach and win percentage" do
       team_result_parser = TeamResultParser.new
-      team_result_parser.get_game_info
+      team_result_parser.get_game_team_info(@game_teams_path)
 
       game_parser = GameParser.new
-      game_parser.get_game_info
+      game_parser.get_game_info(@game_path)
       season_hash = game_parser.get_season_games("20132014")
       season_games = season_hash[true]
       expect(team_result_parser.get_win_percentage(season_games)).to be_a(Hash)
@@ -47,10 +53,10 @@ RSpec.describe TeamResultParser do
   describe "#get_win_games_from_season" do
     it "provides a string with the coach with the highest percentage" do
       team_result_parser = TeamResultParser.new
-      team_result_parser.get_game_info
+      team_result_parser.get_game_team_info(@game_teams_path)
 
       game_parser = GameParser.new
-      game_parser.get_game_info
+      game_parser.get_game_info(@game_path)
       season_hash = game_parser.get_season_games("20132014")
       season_games = season_hash[true]
   
@@ -61,10 +67,10 @@ RSpec.describe TeamResultParser do
   describe "#get_lose_games_from_season" do
     it "provides a string with the coach with the lowest percentage" do
       team_result_parser = TeamResultParser.new
-      team_result_parser.get_game_info
+      team_result_parser.get_game_team_info(@game_teams_path)
 
       game_parser = GameParser.new
-      game_parser.get_game_info
+      game_parser.get_game_info(@game_path)
       season_hash = game_parser.get_season_games("20132014")
       season_games = season_hash[true]
 
@@ -77,8 +83,8 @@ RSpec.describe TeamResultParser do
       league_parser = LeagueParser.new
       team_result_parser = TeamResultParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expect(team_result_parser.best_offense(league_parser.teams_list)).to eq("Reign FC")
       expect(team_result_parser.worst_offense(league_parser.teams_list)).to eq("Utah Royals FC")
@@ -89,7 +95,7 @@ RSpec.describe TeamResultParser do
     it "can return #alltime_goals_per_team" do
       team_result_parser = TeamResultParser.new
 
-      team_result_parser.get_game_info
+      team_result_parser.get_game_team_info(@game_teams_path)
 
       expected = {1=>896,
                   2=>1053,
@@ -130,7 +136,7 @@ RSpec.describe TeamResultParser do
     it "can find the #games_played_per_team" do
       team_result_parser = TeamResultParser.new
 
-      team_result_parser.get_game_info
+      team_result_parser.get_game_team_info(@game_teams_path)
 
       expected = {1=>463,
                   2=>482,
@@ -171,7 +177,7 @@ RSpec.describe TeamResultParser do
     it "can find_best_offense_team_id" do
       team_result_parser = TeamResultParser.new
 
-      team_result_parser.get_game_info
+      team_result_parser.get_game_team_info(@game_teams_path)
 
       expect(team_result_parser.find_best_offense_team_id).to eq(54)
     end
@@ -179,7 +185,7 @@ RSpec.describe TeamResultParser do
     it "can find_best_worst_team_id" do
       team_result_parser = TeamResultParser.new
 
-      team_result_parser.get_game_info
+      team_result_parser.get_game_team_info(@game_teams_path)
 
       expect(team_result_parser.find_worst_offense_team_id).to eq(7)
     end
@@ -190,8 +196,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expect(team_result_parser.highest_scoring_home_team(league_parser.teams_list)).to eq("Reign FC")
     end
@@ -200,8 +206,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expect(team_result_parser.lowest_scoring_home_team(league_parser.teams_list)).to eq("Utah Royals FC")
     end
@@ -210,8 +216,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expect(team_result_parser.highest_scoring_visitor(league_parser.teams_list)).to eq("FC Dallas")
     end
@@ -220,8 +226,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expect(team_result_parser.lowest_scoring_visitor(league_parser.teams_list)).to eq("San Jose Earthquakes")
     end
@@ -232,8 +238,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expected = {1=>456,
                   2=>546,
@@ -275,8 +281,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expected = {1=>440,
                   2=>507,
@@ -318,8 +324,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expected = {1=>463,
                   2=>482,
@@ -361,8 +367,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expected = {1=>463,
                   2=>482,
@@ -404,8 +410,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expect(team_result_parser.highest_scoring_home_team_id).to eq(54)
     end
@@ -414,8 +420,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expect(team_result_parser.lowest_scoring_home_team_id).to eq(7)
     end
@@ -424,8 +430,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expect(team_result_parser.highest_scoring_visiting_team_id).to eq(6)
     end
@@ -434,8 +440,8 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
-      team_result_parser.get_game_info
-      league_parser.list_teams
+      team_result_parser.get_game_team_info(@game_teams_path)
+      league_parser.list_teams(@team_path)
 
       expect(team_result_parser.lowest_scoring_visiting_team_id).to eq(27)
     end
