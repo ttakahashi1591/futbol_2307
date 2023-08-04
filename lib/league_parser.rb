@@ -4,7 +4,7 @@ class LeagueParser
   attr_reader :teams,
               :teams_list
 
-  def initialize(teams)
+  def initialize
     @teams = CSV.open "./data/teams.csv", headers: true, header_converters: :symbol
     @teams_list = []
   end
