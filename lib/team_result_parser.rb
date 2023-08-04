@@ -57,4 +57,49 @@ class TeamResultParser
     end
     (tied_games.to_f / @game_data_by_team.count.to_f).round(2)
   end
+
+  def highest_scoring_home_team
+
+  end
+
+  def lowest_scoring_home_team
+
+  end
+
+  def highest_scoring_visitor
+
+  end
+
+  def lowest_scoring_visitor
+  
+  end
+
+  def alltime_goals_per_home_team #helper method
+    home_goals_hash = Hash.new(0)
+    counter = 1
+    
+    54.times do
+      @game_data_by_team.each do |game|
+        if game.hoa == home
+          if game.team_id.to_i == counter
+            home_goals_hash[game.team_id.to_i] += game.goals.to_i
+          end
+        end
+      end
+      counter += 1
+    end
+    home_goals_hash
+  end
+
+  def alltime_goals_per_visiting_team #helper method
+
+  end
+
+  def home_games_played_per_team #helper method
+
+  end
+
+  def visiting_games_played_per_team #helper method
+
+  end
 end
