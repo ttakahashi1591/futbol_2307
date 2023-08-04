@@ -59,52 +59,62 @@ class TeamResultParser
   end
 
 
+  def get_win_percentage(season_games)
+    games_played = []
+    @game_data_by_team.each do |game|
+      season_games.each do |season_game|
+        if game.game_id == season_game.game_id
+          games_played << game
+        end
+      end
+    end
+    coach_played = {}
+    games_played.each do |play|
+      if coach_played[play.head_coach] == nil
+        coach_played[play.head_coach] = 1
+      else
+        coach_played[play.head_coach] += 1
+      end
+    end
+    win_games = games_played.find_all do |w_game|
+      w_game.result == "WIN"
+    end
+    coach_win = {}
+    win_games.each do |win|
+      if coach_win[win.head_coach] == nil
+        coach_win[win.head_coach] = 1
+      else
+        coach_win[win.head_coach] += 1
+      end
+    end
+    win_percent = {}
+    coach_played.each do |play_k, play_v|
+      coach_win.each do |win_k, win_v|
+        if play_k == win_k
+          win_percent[play_k] = (win_v.to_f / play_v.to_f)
+        elsif !coach_win.keys.include?(play_k)
+          win_percent[play_k] = 0
+        end
+      end
+    end
+    win_percent
+  end
 
+  def get_win_games_from_season(season_games)
+    win_percent = get_win_percentage(season_games)
+    most_pop_coach = win_percent.max_by do |k,v|
+      v
+    end
+    most_pop_coach.first
+  end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  def get_lose_games_from_season(season_games)
+    win_percent = get_win_percentage(season_games)
+    most_pop_coach = win_percent.min_by do |k,v|
+      v
+    end
+    most_pop_coach.first
+  end
 
   def alltime_goals_per_team #helper method
     goals_hash = Hash.new(0)
@@ -175,9 +185,4 @@ class TeamResultParser
   # require 'pry'; binding.pry
     c.key(c.values.min)
   end
-
-
-
-
-
 end

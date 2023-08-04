@@ -1,5 +1,6 @@
 require './lib/team_result'
 require './lib/team_result_parser'
+require './lib/game_parser'
 require './lib/league_parser'
 require './lib/team'
 
@@ -30,6 +31,47 @@ RSpec.describe TeamResultParser do
     end
   end
 
+  describe "#get_win_percentage" do
+    it "provides a hash with coach and win percentage" do
+      team_result_parser = TeamResultParser.new
+      team_result_parser.get_game_info
+
+      game_parser = GameParser.new
+      game_parser.get_game_info
+      season_hash = game_parser.get_season_games("20132014")
+      season_games = season_hash[true]
+      expect(team_result_parser.get_win_percentage(season_games)).to be_a(Hash)
+    end
+  end
+
+  describe "#get_win_games_from_season" do
+    it "provides a string with the coach with the highest percentage" do
+      team_result_parser = TeamResultParser.new
+      team_result_parser.get_game_info
+
+      game_parser = GameParser.new
+      game_parser.get_game_info
+      season_hash = game_parser.get_season_games("20132014")
+      season_games = season_hash[true]
+  
+      expect(team_result_parser.get_win_games_from_season(season_games)).to eq("Claude Julien")
+    end
+  end
+
+  describe "#get_lose_games_from_season" do
+    it "provides a string with the coach with the lowest percentage" do
+      team_result_parser = TeamResultParser.new
+      team_result_parser.get_game_info
+
+      game_parser = GameParser.new
+      game_parser.get_game_info
+      season_hash = game_parser.get_season_games("20132014")
+      season_games = season_hash[true]
+
+      expect(team_result_parser.get_lose_games_from_season(season_games)).to eq("Peter Laviolette")
+    end
+  end
+
   describe "#offense" do
     it "can find the best and worst offenses" do
       league_parser = LeagueParser.new
@@ -45,44 +87,44 @@ RSpec.describe TeamResultParser do
 
   describe "#helper_method" do
     it "can return #alltime_goals_per_team" do
-    team_result_parser = TeamResultParser.new
+      team_result_parser = TeamResultParser.new
 
-    team_result_parser.get_game_info
+      team_result_parser.get_game_info
 
-    expected = {1=>896,
-                2=>1053,
-                3=>1129,
-                4=>972,
-                5=>1262,
-                6=>1154,
-                7=>841,
-                8=>1019,
-                9=>1038,
-                10=>1007,
-                12=>936,
-                13=>955,
-                14=>1159,
-                15=>1168,
-                16=>1156,
-                17=>1007,
-                18=>1101,
-                19=>1068,
-                20=>978,
-                21=>973,
-                22=>964,
-                23=>923,
-                24=>1146,
-                25=>1061,
-                26=>1065,
-                27=>263,
-                28=>1128,
-                29=>1029,
-                30=>1062,
-                52=>1041,
-                53=>620,
-                54=>239}
+      expected = {1=>896,
+                  2=>1053,
+                  3=>1129,
+                  4=>972,
+                  5=>1262,
+                  6=>1154,
+                  7=>841,
+                  8=>1019,
+                  9=>1038,
+                  10=>1007,
+                  12=>936,
+                  13=>955,
+                  14=>1159,
+                  15=>1168,
+                  16=>1156,
+                  17=>1007,
+                  18=>1101,
+                  19=>1068,
+                  20=>978,
+                  21=>973,
+                  22=>964,
+                  23=>923,
+                  24=>1146,
+                  25=>1061,
+                  26=>1065,
+                  27=>263,
+                  28=>1128,
+                  29=>1029,
+                  30=>1062,
+                  52=>1041,
+                  53=>620,
+                  54=>239}
 
-    expect(team_result_parser.alltime_goals_per_team).to eq(expected)
+      expect(team_result_parser.alltime_goals_per_team).to eq(expected)
     end
 
     it "can find the #games_played_per_team" do
