@@ -41,7 +41,7 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.highest_scoring_home_team(league_parser.teams_list)).to eq("Reign FC")
     end
 
-    xit "can return #lowest_scoring_home_team" do
+    it "can return #lowest_scoring_home_team" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
@@ -51,7 +51,7 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.lowest_scoring_home_team(league_parser.teams_list)).to eq("Utah Royals FC")
     end
 
-    xit "can return #highest_scoring_visitor" do
+    it "can return #highest_scoring_visitor" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
@@ -61,7 +61,7 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.highest_scoring_visitor(league_parser.teams_list)).to eq("FC Dallas")
     end
 
-    xit "can return #lowest_scoring_visitor" do
+    it "can return #lowest_scoring_visitor" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
@@ -116,14 +116,45 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.alltime_goals_per_home_team).to eq(expected)
     end
 
-    xit "can return #alltime_goals_per_visiting_team" do
+    it "can return #alltime_goals_per_visiting_team" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
       team_result_parser.get_game_info
       league_parser.list_teams
 
-      # expected = {}
+      expected = {1=>440,
+                  2=>507,
+                  3=>572,
+                  4=>470,
+                  5=>598,
+                  6=>568,
+                  7=>430,
+                  8=>500,
+                  9=>498,
+                  10=>469,
+                  12=>462,
+                  13=>453,
+                  14=>550,
+                  15=>582,
+                  16=>558,
+                  17=>504,
+                  18=>527,
+                  19=>519,
+                  20=>458,
+                  21=>450,
+                  22=>479,
+                  23=>453,
+                  24=>553,
+                  25=>505,
+                  26=>519,
+                  27=>120,
+                  28=>549,
+                  29=>505,
+                  30=>506,
+                  52=>488,
+                  53=>303,
+                  54=>107}
 
       expect(team_result_parser.alltime_goals_per_visiting_team).to eq(expected)
     end
@@ -171,14 +202,45 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.home_games_played_per_team).to eq(expected)
     end
 
-    xit "can return #visiting_games_played_per_team" do
+    it "can return #visiting_games_played_per_team" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
       team_result_parser.get_game_info
       league_parser.list_teams
 
-      # expected = {}
+      expected = {1=>463,
+                  2=>482,
+                  3=>531,
+                  4=>477,
+                  5=>552,
+                  6=>510,
+                  7=>458,
+                  8=>498,
+                  9=>493,
+                  10=>478,
+                  12=>458,
+                  13=>464,
+                  14=>522,
+                  15=>528,
+                  16=>534,
+                  17=>489,
+                  18=>513,
+                  19=>507,
+                  20=>473,
+                  21=>471,
+                  22=>471,
+                  23=>468,
+                  24=>522,
+                  25=>477,
+                  26=>511,
+                  27=>130,
+                  28=>516,
+                  29=>475,
+                  30=>502,
+                  52=>479,
+                  53=>328,
+                  54=>102}
 
       expect(team_result_parser.visiting_games_played_per_team).to eq(expected)
     end
@@ -193,7 +255,7 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.highest_scoring_home_team_id).to eq(54)
     end
 
-    xit "can return #lowest_scoring_home_team_id" do
+    it "can return #lowest_scoring_home_team_id" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
@@ -203,7 +265,7 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.lowest_scoring_home_team_id).to eq(7)
     end
 
-    xit "can return #highest_scoring_visiting_team_id" do
+    it "can return #highest_scoring_visiting_team_id" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
@@ -213,7 +275,7 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.highest_scoring_visiting_team_id).to eq(6)
     end
 
-    xit "can return #lowest_scoring_visiting_team_id" do
+    it "can return #lowest_scoring_visiting_team_id" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
