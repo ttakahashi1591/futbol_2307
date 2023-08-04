@@ -2,15 +2,15 @@
 # We will use game_id, season, away_team_id, hone_team_id, away_goals, home_goals
 
 require "csv"
-require './lib/game'
+require_relative './game'
 class GameParser
   attr_reader :games
   def initialize
     @games = []
   end
 
-  def get_game_info
-    contents = CSV.open "./data/games.csv", headers: true, header_converters: :symbol
+  def get_game_info(games_path)
+    contents = CSV.open games_path, headers: true, header_converters: :symbol
     contents.each do |row|
       game_id = row[:game_id]
       season = row[:season]
