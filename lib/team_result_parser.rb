@@ -57,4 +57,127 @@ class TeamResultParser
     end
     (tied_games.to_f / @game_data_by_team.count.to_f).round(2)
   end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  def alltime_goals_per_team #helper method
+    goals_hash = Hash.new(0)
+    counter = 1
+    
+    54.times do
+      @game_data_by_team.each do |game|
+        if game.team_id.to_i == counter
+          goals_hash[game.team_id.to_i] += game.goals.to_i
+        end
+      end
+      counter += 1
+    end
+    goals_hash
+  end
+  
+  def best_offense(teams)
+    best_offense = nil
+    teams.each do |team|
+      if team.team_id.to_i == find_best_offense_team_id
+        best_offense = team.team_name
+      end
+    end
+    # require 'pry'; binding.pry
+    best_offense
+  end
+
+  def worst_offense(teams)
+    worst_offense = nil
+    teams.each do |team|
+      if team.team_id.to_i == find_worst_offense_team_id
+        worst_offense = team.team_name
+      end
+    end
+    # require 'pry'; binding.pry
+    worst_offense
+  end
+
+  def games_played_per_team #helper method
+    games_played = Hash.new(0)
+    counter = 1
+
+    54.times do
+      @game_data_by_team.each do |game|
+        if game.team_id.to_i == counter
+          games_played[game.team_id.to_i] += 1
+        end
+      end
+      counter += 1
+    end
+    games_played
+  end
+
+  def find_best_offense_team_id #helper method
+    a = alltime_goals_per_team
+    b = games_played_per_team
+
+    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
+  # require 'pry'; binding.pry
+    c.key(c.values.max)
+  end
+
+  def find_worst_offense_team_id #helper method
+    a = alltime_goals_per_team
+    b = games_played_per_team
+
+    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
+  # require 'pry'; binding.pry
+    c.key(c.values.min)
+  end
+
+
+
+
+
 end
