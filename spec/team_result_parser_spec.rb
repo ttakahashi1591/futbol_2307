@@ -363,4 +363,17 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.games_played_per_team_by_location("away")).to eq(expected)
     end
   end
+
+  describe "#Tackles" do
+    it "get list of tackles, most and least in season" do
+      team_result_parser = TeamResultParser.new
+      team_result_parser.get_game_team_info(@game_teams_path)
+
+      game = Game.new("2012030221", "20122013", "", "", "", "", "", "", "")
+
+      expect(team_result_parser.get_tackles_in_season([game])).to be_a(Hash)
+      expect(team_result_parser.most_tackles_in_season_team_id([game])).to eq(6)
+      expect(team_result_parser.least_tackles_in_season_team_id([game])).to eq(3)
+    end
+  end
 end
