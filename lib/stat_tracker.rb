@@ -88,4 +88,18 @@ class StatTracker
     season_games = season_hash[true]
     games_played_in_season = @result_parser.get_lose_games_from_season(season_games)
   end
+
+  def most_tackles(season_id)
+    season_hash = @game_parser.get_season_games(season_id)
+    season_games = season_hash[true]
+    team_id = @result_parser.most_tackles_in_season_team_id(season_games)
+    @league_parser.get_team_name(team_id)
+  end
+
+  def fewest_tackles(season_id)
+    season_hash = @game_parser.get_season_games(season_id)
+    season_games = season_hash[true]
+    team_id = @result_parser.least_tackles_in_season_team_id(season_games)
+    @league_parser.get_team_name(team_id)
+  end
 end
