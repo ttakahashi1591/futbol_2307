@@ -87,106 +87,6 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  describe "#helper_method" do
-    it "can return #alltime_goals_per_team" do
-      team_result_parser = TeamResultParser.new
-
-      team_result_parser.get_game_team_info(@game_teams_path)
-
-      expected = {1=>896,
-                  2=>1053,
-                  3=>1129,
-                  4=>972,
-                  5=>1262,
-                  6=>1154,
-                  7=>841,
-                  8=>1019,
-                  9=>1038,
-                  10=>1007,
-                  12=>936,
-                  13=>955,
-                  14=>1159,
-                  15=>1168,
-                  16=>1156,
-                  17=>1007,
-                  18=>1101,
-                  19=>1068,
-                  20=>978,
-                  21=>973,
-                  22=>964,
-                  23=>923,
-                  24=>1146,
-                  25=>1061,
-                  26=>1065,
-                  27=>263,
-                  28=>1128,
-                  29=>1029,
-                  30=>1062,
-                  52=>1041,
-                  53=>620,
-                  54=>239}
-
-      expect(team_result_parser.alltime_goals_per_team).to eq(expected)
-    end
-
-    it "can find the #games_played_per_team" do
-      team_result_parser = TeamResultParser.new
-
-      team_result_parser.get_game_team_info(@game_teams_path)
-
-      expected = {1=>463,
-                  2=>482,
-                  3=>531,
-                  4=>477,
-                  5=>552,
-                  6=>510,
-                  7=>458,
-                  8=>498,
-                  9=>493,
-                  10=>478,
-                  12=>458,
-                  13=>464,
-                  14=>522,
-                  15=>528,
-                  16=>534,
-                  17=>489,
-                  18=>513,
-                  19=>507,
-                  20=>473,
-                  21=>471,
-                  22=>471,
-                  23=>468,
-                  24=>522,
-                  25=>477,
-                  26=>511,
-                  27=>130,
-                  28=>516,
-                  29=>475,
-                  30=>502,
-                  52=>479,
-                  53=>328,
-                  54=>102}
-
-      expect(team_result_parser.games_played_per_team).to eq(expected)
-    end
-
-    it "can find_best_offense_team_id" do
-      team_result_parser = TeamResultParser.new
-
-      team_result_parser.get_game_team_info(@game_teams_path)
-
-      expect(team_result_parser.find_best_offense_team_id).to eq(54)
-    end
-
-    it "can find_best_worst_team_id" do
-      team_result_parser = TeamResultParser.new
-
-      team_result_parser.get_game_team_info(@game_teams_path)
-
-      expect(team_result_parser.find_worst_offense_team_id).to eq(7)
-    end
-  end
-
   describe "#scoring_teams" do
     it "can return #highest_scoring_home_team" do
       team_result_parser = TeamResultParser.new
@@ -225,13 +125,59 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  describe "#helper_methods" do
-    it "can return #alltime_goals_per_home_team" do
+  describe "#helper_method" do
+    it "can #find_best_worst_offense_team_id_by_location" do
       team_result_parser = TeamResultParser.new
-      league_parser = LeagueParser.new
 
       team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
+
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("both", "best")).to eq(54)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("both", "worst")).to eq(7)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("home", "best")).to eq(54)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("home", "worst")).to eq(7)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("away", "best")).to eq(6)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("away", "worst")).to eq(27)
+    end
+
+    it "can find #alltime_goals_per_team_by_location" do
+      team_result_parser = TeamResultParser.new
+
+      team_result_parser.get_game_team_info(@game_teams_path)
+
+      expected = {1=>896,
+                  2=>1053,
+                  3=>1129,
+                  4=>972,
+                  5=>1262,
+                  6=>1154,
+                  7=>841,
+                  8=>1019,
+                  9=>1038,
+                  10=>1007,
+                  12=>936,
+                  13=>955,
+                  14=>1159,
+                  15=>1168,
+                  16=>1156,
+                  17=>1007,
+                  18=>1101,
+                  19=>1068,
+                  20=>978,
+                  21=>973,
+                  22=>964,
+                  23=>923,
+                  24=>1146,
+                  25=>1061,
+                  26=>1065,
+                  27=>263,
+                  28=>1128,
+                  29=>1029,
+                  30=>1062,
+                  52=>1041,
+                  53=>620,
+                  54=>239}
+
+      expect(team_result_parser.alltime_goals_per_team_by_location("both")).to eq(expected)
 
       expected = {1=>456,
                   2=>546,
@@ -266,15 +212,7 @@ RSpec.describe TeamResultParser do
                   53=>317,
                   54=>132}
 
-      expect(team_result_parser.alltime_goals_per_home_team).to eq(expected)
-    end
-
-    it "can return #alltime_goals_per_visiting_team" do
-      team_result_parser = TeamResultParser.new
-      league_parser = LeagueParser.new
-
-      team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
+      expect(team_result_parser.alltime_goals_per_team_by_location("home")).to eq(expected)
 
       expected = {1=>440,
                   2=>507,
@@ -309,10 +247,10 @@ RSpec.describe TeamResultParser do
                   53=>303,
                   54=>107}
 
-      expect(team_result_parser.alltime_goals_per_visiting_team).to eq(expected)
+      expect(team_result_parser.alltime_goals_per_team_by_location("away")).to eq(expected)
     end
 
-    it "can return #home_games_played_per_team" do
+    it "can find #games_played_per_team_by_location" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
 
@@ -352,90 +290,90 @@ RSpec.describe TeamResultParser do
                   53=>328,
                   54=>102}
 
-      expect(team_result_parser.home_games_played_per_team).to eq(expected)
+      expect(team_result_parser.games_played_per_team_by_location("both")).to eq(expected)
+
+      expected = {1=>231,
+                  2=>240,
+                  3=>265,
+                  4=>238,
+                  5=>278,
+                  6=>257,
+                  7=>229,
+                  8=>249,
+                  9=>245,
+                  10=>238,
+                  12=>229,
+                  13=>232,
+                  14=>263,
+                  15=>264,
+                  16=>268,
+                  17=>242,
+                  18=>256,
+                  19=>253,
+                  20=>236,
+                  21=>236,
+                  22=>235,
+                  23=>234,
+                  24=>264,
+                  25=>239,
+                  26=>255,
+                  27=>65,
+                  28=>258,
+                  29=>237,
+                  30=>250,
+                  52=>240,
+                  53=>164,
+                  54=>51}
+
+      expect(team_result_parser.games_played_per_team_by_location("home")).to eq(expected)
+
+      expected = {1=>232,
+                  2=>242,
+                  3=>266,
+                  4=>239,
+                  5=>274,
+                  6=>253,
+                  7=>229,
+                  8=>249,
+                  9=>248,
+                  10=>240,
+                  12=>229,
+                  13=>232,
+                  14=>259,
+                  15=>264,
+                  16=>266,
+                  17=>247,
+                  18=>257,
+                  19=>254,
+                  20=>237,
+                  21=>235,
+                  22=>236,
+                  23=>234,
+                  24=>258,
+                  25=>238,
+                  26=>256,
+                  27=>65,
+                  28=>258,
+                  29=>238,
+                  30=>252,
+                  52=>239,
+                  53=>164,
+                  54=>51}
+
+      expect(team_result_parser.games_played_per_team_by_location("away")).to eq(expected)
     end
+  end
 
-    it "can return #visiting_games_played_per_team" do
+  describe "#Tackles" do
+    it "get list of tackles, most and least in season" do
       team_result_parser = TeamResultParser.new
-      league_parser = LeagueParser.new
-
       team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
 
-      expected = {1=>463,
-                  2=>482,
-                  3=>531,
-                  4=>477,
-                  5=>552,
-                  6=>510,
-                  7=>458,
-                  8=>498,
-                  9=>493,
-                  10=>478,
-                  12=>458,
-                  13=>464,
-                  14=>522,
-                  15=>528,
-                  16=>534,
-                  17=>489,
-                  18=>513,
-                  19=>507,
-                  20=>473,
-                  21=>471,
-                  22=>471,
-                  23=>468,
-                  24=>522,
-                  25=>477,
-                  26=>511,
-                  27=>130,
-                  28=>516,
-                  29=>475,
-                  30=>502,
-                  52=>479,
-                  53=>328,
-                  54=>102}
+      game = Game.new("2012030221", "20122013", "", "", "", "", "", "", "")
 
-      expect(team_result_parser.visiting_games_played_per_team).to eq(expected)
-    end
-
-    it "can return #highest_scoring_home_team_id" do
-      team_result_parser = TeamResultParser.new
-      league_parser = LeagueParser.new
-
-      team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
-
-      expect(team_result_parser.highest_scoring_home_team_id).to eq(54)
-    end
-
-    it "can return #lowest_scoring_home_team_id" do
-      team_result_parser = TeamResultParser.new
-      league_parser = LeagueParser.new
-
-      team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
-
-      expect(team_result_parser.lowest_scoring_home_team_id).to eq(7)
-    end
-
-    it "can return #highest_scoring_visiting_team_id" do
-      team_result_parser = TeamResultParser.new
-      league_parser = LeagueParser.new
-
-      team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
-
-      expect(team_result_parser.highest_scoring_visiting_team_id).to eq(6)
-    end
-
-    it "can return #lowest_scoring_visiting_team_id" do
-      team_result_parser = TeamResultParser.new
-      league_parser = LeagueParser.new
-
-      team_result_parser.get_game_team_info(@game_teams_path)
-      league_parser.list_teams(@team_path)
-
-      expect(team_result_parser.lowest_scoring_visiting_team_id).to eq(27)
+      expect(team_result_parser.get_tackles_in_season([game])).to be_a(Hash)
+      expect(team_result_parser.most_tackles_in_season_team_id([game])).to eq(6)
+      expect(team_result_parser.least_tackles_in_season_team_id([game])).to eq(3)
     end
   end
 end

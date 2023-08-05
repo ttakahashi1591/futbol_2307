@@ -61,6 +61,32 @@ class TeamResultParser
     (tied_games.to_f / @game_data_by_team.count.to_f).round(2)
   end
 
+  def get_tackles_in_season(season_games)
+    tackles_by_team = Hash.new(0)
+    @game_data_by_team.each do |game|
+      season_games.each do |season_game|
+        if game.game_id == season_game.game_id
+          tackles_by_team[game.team_id.to_i] += game.tackles.to_i
+        end
+      end
+    end
+    tackles_by_team
+  end
+
+  def most_tackles_in_season_team_id(season_games)
+    most_tackles_team_id = get_tackles_in_season(season_games).max_by do |team_id, tackles|
+      tackles
+    end
+    most_tackles_team_id.first
+  end
+
+  def least_tackles_in_season_team_id(season_games)
+    least_tackles_team_id = get_tackles_in_season(season_games).min_by do |team_id, tackles|
+      tackles
+    end
+    least_tackles_team_id.first
+  end
+
   def get_win_percentage(season_games)
     games_played = []
     @game_data_by_team.each do |game|
@@ -119,28 +145,13 @@ class TeamResultParser
     end
     most_pop_coach.first
   end
-    
-  def alltime_goals_per_team #helper method
-    goals_hash = Hash.new(0)
-    counter = 1
-    
-    54.times do
-      @game_data_by_team.each do |game|
-        if game.team_id.to_i == counter
-          goals_hash[game.team_id.to_i] += game.goals.to_i
-        end
-      end
-      counter += 1
-    end
-    goals_hash
-  end
   
   def best_offense
     best_offense = nil
     @league_parser.list_teams(@team_path)
     teams = @league_parser.get_team_list
     teams.each do |team|
-      if team.team_id.to_i == find_best_offense_team_id
+      if team.team_id.to_i == find_best_worst_offense_team_id_by_location("both", "best")
         best_offense = team.team_name
       end
     end
@@ -152,21 +163,67 @@ class TeamResultParser
     @league_parser.list_teams(@team_path)
     teams = @league_parser.get_team_list
     teams.each do |team|
-      if team.team_id.to_i == find_worst_offense_team_id
+      if team.team_id.to_i == find_best_worst_offense_team_id_by_location("both", "worst")
         worst_offense = team.team_name
       end
     end
-    # require 'pry'; binding.pry
     worst_offense
   end
-  
-  def games_played_per_team #helper method
+
+  def find_best_worst_offense_team_id_by_location(location, goodness)
+    a = alltime_goals_per_team_by_location(location)
+    b = games_played_per_team_by_location(location)
+    
+    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
+    
+    if goodness == "best"
+      min_or_max = c.key(c.values.max)
+    elsif goodness == "worst"
+      min_or_max = c.key(c.values.min)
+    end
+    min_or_max
+  end
+
+  def alltime_goals_per_team_by_location(location)
+    goals_hash = Hash.new(0)
+    counter = 1
+    
+    54.times do
+      @game_data_by_team.each do |game|
+        if location == "both" &&
+        game.team_id.to_i == counter
+          goals_hash[game.team_id.to_i] += game.goals.to_i
+        elsif location == "home" &&
+        game.hoa == location &&
+        game.team_id.to_i == counter
+          goals_hash[game.team_id.to_i] += game.goals.to_i
+        elsif location == "away" &&
+        game.hoa == location &&
+        game.team_id.to_i == counter
+          goals_hash[game.team_id.to_i] += game.goals.to_i
+        end
+      end
+      counter += 1
+    end
+    goals_hash
+  end
+
+  def games_played_per_team_by_location(location)
     games_played = Hash.new(0)
     counter = 1
 
     54.times do
       @game_data_by_team.each do |game|
-        if game.team_id.to_i == counter
+        if location == "both" &&
+        game.team_id.to_i == counter
+          games_played[game.team_id.to_i] += 1
+        elsif location == "home" &&
+        game.hoa == location &&
+        game.team_id.to_i == counter
+          games_played[game.team_id.to_i] += 1
+        elsif location == "away" &&
+        game.hoa == location &&
+        game.team_id.to_i == counter
           games_played[game.team_id.to_i] += 1
         end
       end
@@ -174,31 +231,13 @@ class TeamResultParser
     end
     games_played
   end
-  
-  def find_best_offense_team_id #helper method
-    a = alltime_goals_per_team
-    b = games_played_per_team
-
-    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
-    # require 'pry'; binding.pry
-    c.key(c.values.max)
-  end
-
-  def find_worst_offense_team_id #helper method
-    a = alltime_goals_per_team
-    b = games_played_per_team
-
-    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
-    # require 'pry'; binding.pry
-    c.key(c.values.min)
-  end
 
   def highest_scoring_home_team
     best_home_team = nil
     @league_parser.list_teams(@team_path)
     teams = @league_parser.get_team_list
     teams.each do |team|
-      if team.team_id.to_i == highest_scoring_home_team_id
+      if team.team_id.to_i == find_best_worst_offense_team_id_by_location("home", "best")
         best_home_team = team.team_name
       end
     end
@@ -210,7 +249,7 @@ class TeamResultParser
     @league_parser.list_teams(@team_path)
     teams = @league_parser.get_team_list
     teams.each do |team|
-      if team.team_id.to_i == lowest_scoring_home_team_id
+      if team.team_id.to_i == find_best_worst_offense_team_id_by_location("home", "worst")
         worst_home_team = team.team_name
       end
     end
@@ -222,7 +261,7 @@ class TeamResultParser
     @league_parser.list_teams(@team_path)
     teams = @league_parser.get_team_list
     teams.each do |team|
-      if team.team_id.to_i == highest_scoring_visiting_team_id
+      if team.team_id.to_i == find_best_worst_offense_team_id_by_location("away", "best")
         best_visiting_team = team.team_name
       end
     end
@@ -234,102 +273,10 @@ class TeamResultParser
     @league_parser.list_teams(@team_path)
     teams = @league_parser.get_team_list
     teams.each do |team|
-      if team.team_id.to_i == lowest_scoring_visiting_team_id
+      if team.team_id.to_i == find_best_worst_offense_team_id_by_location("away", "worst")
         worst_visiting_team = team.team_name
       end
     end
     worst_visiting_team
-  end
-
-  def alltime_goals_per_home_team #helper method
-    home_goals_hash = Hash.new(0)
-    counter = 1
-    
-    54.times do
-      @game_data_by_team.each do |game|
-        if game.hoa == "home"
-          if game.team_id.to_i == counter
-            home_goals_hash[game.team_id.to_i] += game.goals.to_i
-          end
-        end
-      end
-      counter += 1
-    end
-    home_goals_hash
-  end
-
-  def alltime_goals_per_visiting_team #helper method
-    visitor_goals_hash = Hash.new(0)
-    counter = 1
-    
-    54.times do
-      @game_data_by_team.each do |game|
-        if game.hoa == "away"
-          if game.team_id.to_i == counter
-            visitor_goals_hash[game.team_id.to_i] += game.goals.to_i
-          end
-        end
-      end
-      counter += 1
-    end
-    visitor_goals_hash
-  end
-
-  def home_games_played_per_team #helper method
-    home_games_played = Hash.new(0)
-    counter = 1
-
-    54.times do
-      @game_data_by_team.each do |game|
-        if game.team_id.to_i == counter
-          home_games_played[game.team_id.to_i] += 1
-        end
-      end
-      counter += 1
-    end
-    home_games_played
-  end
-
-  def visiting_games_played_per_team #helper method
-    visitor_games_played = Hash.new(0)
-    counter = 1
-
-    54.times do
-      @game_data_by_team.each do |game|
-        if game.team_id.to_i == counter
-          visitor_games_played[game.team_id.to_i] += 1
-        end
-      end
-      counter += 1
-    end
-    visitor_games_played
-  end
-
-  def highest_scoring_home_team_id
-    a = alltime_goals_per_home_team
-    b = home_games_played_per_team
-    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
-    c.key(c.values.max)
-  end
-
-  def lowest_scoring_home_team_id
-    a = alltime_goals_per_home_team
-    b = home_games_played_per_team
-    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
-    c.key(c.values.min)
-  end
-
-  def highest_scoring_visiting_team_id
-    a = alltime_goals_per_visiting_team
-    b = visiting_games_played_per_team
-    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
-    c.key(c.values.max)
-  end
-
-  def lowest_scoring_visiting_team_id
-    a = alltime_goals_per_visiting_team
-    b = visiting_games_played_per_team
-    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
-    c.key(c.values.min)
   end
 end
