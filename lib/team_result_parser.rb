@@ -61,6 +61,32 @@ class TeamResultParser
     (tied_games.to_f / @game_data_by_team.count.to_f).round(2)
   end
 
+  def get_tackles_in_season(season_games)
+    tackles_by_team = Hash.new(0)
+    @game_data_by_team.each do |game|
+      season_games.each do |season_game|
+        if game.game_id == season_game.game_id
+          tackles_by_team[game.team_id.to_i] += game.tackles.to_i
+        end
+      end
+    end
+    tackles_by_team
+  end
+
+  def most_tackles_in_season_team_id(season_games)
+    most_tackles_team_id = get_tackles_in_season(season_games).max_by do |team_id, tackles|
+      tackles
+    end
+    most_tackles_team_id.first
+  end
+
+  def least_tackles_in_season_team_id(season_games)
+    least_tackles_team_id = get_tackles_in_season(season_games).min_by do |team_id, tackles|
+      tackles
+    end
+    least_tackles_team_id.first
+  end
+
   def get_win_percentage(season_games)
     games_played = []
     @game_data_by_team.each do |game|
