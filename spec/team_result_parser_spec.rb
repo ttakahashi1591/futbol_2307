@@ -190,17 +190,128 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.find_worst_offense_team_id).to eq(7)
     end
 
-    it "can #find_best_worst_home_away_offense_team_id" do
+    it "can #find_best_worst_offense_team_id_by_location" do
       team_result_parser = TeamResultParser.new
 
       team_result_parser.get_game_team_info(@game_teams_path)
 
-      expect(team_result_parser.find_best_worst_home_away_offense_team_id("both", "best")).to eq(54)
-      expect(team_result_parser.find_best_worst_home_away_offense_team_id("both", "worst")).to eq(7)
-      expect(team_result_parser.find_best_worst_home_away_offense_team_id("home", "best")).to eq(54)
-      expect(team_result_parser.find_best_worst_home_away_offense_team_id("home", "worst")).to eq(7)
-      expect(team_result_parser.find_best_worst_home_away_offense_team_id("away", "best")).to eq(6)
-      expect(team_result_parser.find_best_worst_home_away_offense_team_id("away", "worst")).to eq(27)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("both", "best")).to eq(54)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("both", "worst")).to eq(7)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("home", "best")).to eq(54)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("home", "worst")).to eq(7)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("away", "best")).to eq(6)
+      expect(team_result_parser.find_best_worst_offense_team_id_by_location("away", "worst")).to eq(27)
+    end
+
+    it "can find #alltime_goals_per_team_by_location" do
+      team_result_parser = TeamResultParser.new
+
+      team_result_parser.get_game_team_info(@game_teams_path)
+
+      expected = {1=>896,
+                  2=>1053,
+                  3=>1129,
+                  4=>972,
+                  5=>1262,
+                  6=>1154,
+                  7=>841,
+                  8=>1019,
+                  9=>1038,
+                  10=>1007,
+                  12=>936,
+                  13=>955,
+                  14=>1159,
+                  15=>1168,
+                  16=>1156,
+                  17=>1007,
+                  18=>1101,
+                  19=>1068,
+                  20=>978,
+                  21=>973,
+                  22=>964,
+                  23=>923,
+                  24=>1146,
+                  25=>1061,
+                  26=>1065,
+                  27=>263,
+                  28=>1128,
+                  29=>1029,
+                  30=>1062,
+                  52=>1041,
+                  53=>620,
+                  54=>239}
+
+      expect(team_result_parser.alltime_goals_per_team_by_location("both")).to eq(expected)
+
+      expected = {1=>456,
+                  2=>546,
+                  3=>557,
+                  4=>502,
+                  5=>664,
+                  6=>586,
+                  7=>411,
+                  8=>519,
+                  9=>540,
+                  10=>538,
+                  12=>474,
+                  13=>502,
+                  14=>609,
+                  15=>586,
+                  16=>598,
+                  17=>503,
+                  18=>574,
+                  19=>549,
+                  20=>520,
+                  21=>523,
+                  22=>485,
+                  23=>470,
+                  24=>593,
+                  25=>556,
+                  26=>546,
+                  27=>143,
+                  28=>579,
+                  29=>524,
+                  30=>556,
+                  52=>553,
+                  53=>317,
+                  54=>132}
+
+      expect(team_result_parser.alltime_goals_per_team_by_location("home")).to eq(expected)
+
+      expected = {1=>440,
+                  2=>507,
+                  3=>572,
+                  4=>470,
+                  5=>598,
+                  6=>568,
+                  7=>430,
+                  8=>500,
+                  9=>498,
+                  10=>469,
+                  12=>462,
+                  13=>453,
+                  14=>550,
+                  15=>582,
+                  16=>558,
+                  17=>504,
+                  18=>527,
+                  19=>519,
+                  20=>458,
+                  21=>450,
+                  22=>479,
+                  23=>453,
+                  24=>553,
+                  25=>505,
+                  26=>519,
+                  27=>120,
+                  28=>549,
+                  29=>505,
+                  30=>506,
+                  52=>488,
+                  53=>303,
+                  54=>107}
+
+      expect(team_result_parser.alltime_goals_per_team_by_location("away")).to eq(expected)
     end
   end
 
