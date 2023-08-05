@@ -193,7 +193,7 @@ class TeamResultParser
     c.key(c.values.min)
   end
 
-  def find_best_worst_home_away_offense_team_id(location, goodness)
+  def find_best_worst_offense_team_id_by_location(location, goodness)
     if location == "both"
       a = alltime_goals_per_team
       b = games_played_per_team
@@ -213,6 +213,30 @@ class TeamResultParser
       min_or_max = c.key(c.values.min)
     end
     min_or_max
+  end
+
+  def alltime_goals_per_team_by_location(location)
+    goals_hash = Hash.new(0)
+    counter = 1
+    
+    54.times do
+      @game_data_by_team.each do |game|
+        if location == "both" &&
+        game.team_id.to_i == counter
+          goals_hash[game.team_id.to_i] += game.goals.to_i
+        elsif location == "home" &&
+        game.hoa == location &&
+        game.team_id.to_i == counter
+          goals_hash[game.team_id.to_i] += game.goals.to_i
+        elsif location == "away" &&
+        game.hoa == location &&
+        game.team_id.to_i == counter
+          goals_hash[game.team_id.to_i] += game.goals.to_i
+        end
+      end
+      counter += 1
+    end
+    goals_hash
   end
 
   def highest_scoring_home_team
