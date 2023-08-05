@@ -1,4 +1,4 @@
-require './lib/game'
+require 'spec_helper'
 
 RSpec.describe Game do
   it "Init and get info" do

@@ -1,5 +1,4 @@
-require "./lib/league_parser"
-require "./lib/team"
+require 'spec_helper'
 
 RSpec.describe Team do
   describe "initialize" do
