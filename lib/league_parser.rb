@@ -27,4 +27,14 @@ class LeagueParser
   def get_team_list
     @teams_list
   end
+
+  def get_team_name(id_of_team)
+    name = ""
+    teams_list.each do |team|
+      if team.team_id.to_i == id_of_team
+        name = team.team_name
+      end
+    end
+    name
+  end
 end
