@@ -1,4 +1,4 @@
-require './lib/team_result'
+require 'spec_helper'
 
 RSpec.describe TeamResult do
   it "Init and get info" do

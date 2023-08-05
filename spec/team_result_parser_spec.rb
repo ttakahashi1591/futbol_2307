@@ -1,8 +1,4 @@
-require './lib/team_result'
-require './lib/team_result_parser'
-require './lib/game_parser'
-require './lib/league_parser'
-require './lib/team'
+require 'spec_helper'
 
 RSpec.describe TeamResultParser do
   before(:all) do
