@@ -1,5 +1,4 @@
-require './lib/game'
-require './lib/game_parser'
+require 'spec_helper'
 
 RSpec.describe GameParser do
   before(:all) do

@@ -1,5 +1,4 @@
-require "./lib/league_parser"
-require "./lib/team"
+require 'spec_helper'
 
 RSpec.describe LeagueParser do
   before(:all) do
