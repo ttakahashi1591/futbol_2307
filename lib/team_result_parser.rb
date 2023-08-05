@@ -193,6 +193,28 @@ class TeamResultParser
     c.key(c.values.min)
   end
 
+  def find_best_worst_home_away_offense_team_id(location, goodness)
+    if location == "both"
+      a = alltime_goals_per_team
+      b = games_played_per_team
+    elsif location == "home"
+      a = alltime_goals_per_home_team
+      b = home_games_played_per_team
+    elsif location == "away"
+      a = alltime_goals_per_visiting_team
+      b = visiting_games_played_per_team
+    end
+    
+    c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
+    
+    if goodness == "best"
+      min_or_max = c.key(c.values.max)
+    elsif goodness == "worst"
+      min_or_max = c.key(c.values.min)
+    end
+    min_or_max
+  end
+
   def highest_scoring_home_team
     best_home_team = nil
     @league_parser.list_teams(@team_path)
