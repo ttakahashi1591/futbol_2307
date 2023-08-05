@@ -73,4 +73,16 @@ RSpec.describe GameParser do
       expect(game_parser.average_goals_by_season).to eq (expected)
     end
   end
+
+  describe "#get_season_games" do
+    it "can get season games" do
+      game_parser = GameParser.new
+
+      expect(game_parser).to be_a GameParser
+
+      game_parser.get_game_info(@game_path)
+
+      expect(game_parser.get_season_games("20122013")).to be_a(Hash)
+    end
+  end
 end
