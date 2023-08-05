@@ -194,16 +194,8 @@ class TeamResultParser
   end
 
   def find_best_worst_offense_team_id_by_location(location, goodness)
-    if location == "both"
-      a = alltime_goals_per_team
-      b = games_played_per_team
-    elsif location == "home"
-      a = alltime_goals_per_home_team
-      b = home_games_played_per_team
-    elsif location == "away"
-      a = alltime_goals_per_visiting_team
-      b = visiting_games_played_per_team
-    end
+    a = alltime_goals_per_team_by_location(location)
+    b = games_played_per_team_by_location(location)
     
     c = a.merge(b) { |team_id, goals, games| goals.to_f / games.to_f }
     
@@ -237,6 +229,30 @@ class TeamResultParser
       counter += 1
     end
     goals_hash
+  end
+
+  def games_played_per_team_by_location(location)
+    games_played = Hash.new(0)
+    counter = 1
+
+    54.times do
+      @game_data_by_team.each do |game|
+        if location == "both" &&
+        game.team_id.to_i == counter
+          games_played[game.team_id.to_i] += 1
+        elsif location == "home" &&
+        game.hoa == location &&
+        game.team_id.to_i == counter
+          games_played[game.team_id.to_i] += 1
+        elsif location == "away" &&
+        game.hoa == location &&
+        game.team_id.to_i == counter
+          games_played[game.team_id.to_i] += 1
+        end
+      end
+      counter += 1
+    end
+    games_played
   end
 
   def highest_scoring_home_team
@@ -327,23 +343,27 @@ class TeamResultParser
 
     54.times do
       @game_data_by_team.each do |game|
-        if game.team_id.to_i == counter
-          home_games_played[game.team_id.to_i] += 1
+        if game.hoa == "home"
+          if game.team_id.to_i == counter
+            home_games_played[game.team_id.to_i] += 1
+          end
         end
       end
       counter += 1
     end
     home_games_played
   end
-
+  
   def visiting_games_played_per_team #helper method
     visitor_games_played = Hash.new(0)
     counter = 1
-
+    
     54.times do
       @game_data_by_team.each do |game|
-        if game.team_id.to_i == counter
-          visitor_games_played[game.team_id.to_i] += 1
+        if game.hoa == "away"
+          if game.team_id.to_i == counter
+            visitor_games_played[game.team_id.to_i] += 1
+          end
         end
       end
       counter += 1
