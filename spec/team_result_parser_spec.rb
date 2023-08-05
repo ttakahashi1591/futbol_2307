@@ -174,7 +174,7 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.games_played_per_team).to eq(expected)
     end
 
-    it "can find_best_offense_team_id" do
+    it "can #find_best_offense_team_id" do
       team_result_parser = TeamResultParser.new
 
       team_result_parser.get_game_team_info(@game_teams_path)
@@ -182,12 +182,25 @@ RSpec.describe TeamResultParser do
       expect(team_result_parser.find_best_offense_team_id).to eq(54)
     end
 
-    it "can find_best_worst_team_id" do
+    it "can #find_worst_offense_team_id" do
       team_result_parser = TeamResultParser.new
 
       team_result_parser.get_game_team_info(@game_teams_path)
 
       expect(team_result_parser.find_worst_offense_team_id).to eq(7)
+    end
+
+    it "can #find_best_worst_home_away_offense_team_id" do
+      team_result_parser = TeamResultParser.new
+
+      team_result_parser.get_game_team_info(@game_teams_path)
+
+      expect(team_result_parser.find_best_worst_home_away_offense_team_id("both", "best")).to eq(54)
+      expect(team_result_parser.find_best_worst_home_away_offense_team_id("both", "worst")).to eq(7)
+      expect(team_result_parser.find_best_worst_home_away_offense_team_id("home", "best")).to eq(54)
+      expect(team_result_parser.find_best_worst_home_away_offense_team_id("home", "worst")).to eq(7)
+      expect(team_result_parser.find_best_worst_home_away_offense_team_id("away", "best")).to eq(6)
+      expect(team_result_parser.find_best_worst_home_away_offense_team_id("away", "worst")).to eq(27)
     end
   end
 
