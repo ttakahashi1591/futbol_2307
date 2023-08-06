@@ -102,4 +102,18 @@ class StatTracker
     team_id = @result_parser.least_tackles_in_season_team_id(season_games)
     @league_parser.get_team_name(team_id)
   end
+
+  def most_accurate_team(season_id)
+    season_hash = @game_parser.get_season_games(season_id)
+    season_games = season_hash[true]
+    team_id = @result_parser.goal_to_shot_ratio_team_id_max(season_games)
+    @league_parser.get_team_name(team_id)
+  end
+
+  def least_accurate_team(season_id)
+    season_hash = @game_parser.get_season_games(season_id)
+    season_games = season_hash[true]
+    team_id = @result_parser.goal_to_shot_ratio_team_id_min(season_games)
+    @league_parser.get_team_name(team_id)
+  end
 end
