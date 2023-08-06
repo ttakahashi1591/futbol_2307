@@ -279,4 +279,50 @@ class TeamResultParser
     end
     worst_visiting_team
   end
+
+  def get_season_goals(season_games)
+    goals_by_team = Hash.new(0)
+    @game_data_by_team.each do |game|
+      season_games.each do |season_game|
+        # require 'pry'; binding.pry
+        if game.game_id == season_game.game_id
+          goals_by_team[game.team_id.to_i] += game.goals.to_i
+        end
+      end
+    end
+    # require 'pry'; binding.pry
+    goals_by_team
+  end
+
+  def get_season_shots(season_games)
+    shots_by_team = Hash.new(0)
+    @game_data_by_team.each do |game|
+      season_games.each do |season_game|
+        if game.game_id == season_game.game_id
+          shots_by_team[game.team_id.to_i] += game.shots.to_i
+        end
+      end
+    end
+    shots_by_team
+  end
+
+  def goal_to_shot_ratio_team_id_max(season_games)
+    a = get_season_goals(season_games)
+    b = get_season_shots(season_games)
+
+    c = a.merge(b) { |team_ids, goals, shots| goals.to_f / shots.to_f }
+
+    c.key(c.values.max)
+    # require 'pry'; binding.pry
+  end
+
+  def goal_to_shot_ratio_team_id_min(season_games)
+    a = get_season_goals(season_games)
+    b = get_season_shots(season_games)
+
+    c = a.merge(b) { |team_ids, goals, shots| goals.to_f / shots.to_f }
+
+    c.key(c.values.min)
+    # require 'pry'; binding.pry
+  end
 end
