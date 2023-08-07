@@ -37,7 +37,6 @@ RSpec.describe LeagueParser do
       league_parser.list_teams(@team_path)
       league_parser.count_of_teams
 
-      # expect(league_parser.count_of_teams).to be_an(Array)
       expect(league_parser.count_of_teams).to eq(32)
     end
   end

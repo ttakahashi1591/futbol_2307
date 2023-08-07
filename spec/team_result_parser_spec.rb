@@ -369,7 +369,7 @@ RSpec.describe TeamResultParser do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
 
-      game = Game.new("2012030221", "20122013", "", "", "", "", "", "", "")
+      game = Game.new("2012030221", "20122013", "", "", "", "")
 
       expect(team_result_parser.get_tackles_in_season([game])).to be_a(Hash)
       expect(team_result_parser.most_tackles_in_season_team_id([game])).to eq(6)
@@ -378,7 +378,7 @@ RSpec.describe TeamResultParser do
   end
 
   describe "#get_season_goals" do
-    it "get list of goals, most and least in season" do
+    it "get list of goals" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
       game_parser = GameParser.new
@@ -390,7 +390,7 @@ RSpec.describe TeamResultParser do
   end
 
   describe "#get_season_shots" do
-    it "get list of shots, most and least in season" do
+    it "get list of shots" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
       game_parser = GameParser.new
@@ -401,29 +401,31 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  it "can find most_accurate_team" do
-    team_result_parser = TeamResultParser.new
-    team_result_parser.get_game_team_info(@game_teams_path)
-    game_parser = GameParser.new
-    
-    game_parser.get_game_info(@game_path)
-    season_games = game_parser.get_season_games("20132014")
-    expect(team_result_parser.goal_to_shot_ratio_team_id_max(season_games[true])).to eq(24)
+  describe "most and least accurate team" do
+    it "can find most_accurate_team" do
+      team_result_parser = TeamResultParser.new
+      team_result_parser.get_game_team_info(@game_teams_path)
+      game_parser = GameParser.new
+      
+      game_parser.get_game_info(@game_path)
+      season_games = game_parser.get_season_games("20132014")
+      expect(team_result_parser.goal_to_shot_ratio_team_id_max(season_games[true])).to eq(24)
 
-    season_games = game_parser.get_season_games("20142015")
-    expect(team_result_parser.goal_to_shot_ratio_team_id_max(season_games[true])).to eq(20)
-  end
+      season_games = game_parser.get_season_games("20142015")
+      expect(team_result_parser.goal_to_shot_ratio_team_id_max(season_games[true])).to eq(20)
+    end
 
-  it "can find least_accurate_team" do
-    team_result_parser = TeamResultParser.new
-    team_result_parser.get_game_team_info(@game_teams_path)
-    game_parser = GameParser.new
-    
-    game_parser.get_game_info(@game_path)
-    season_games = game_parser.get_season_games("20132014")
-    expect(team_result_parser.goal_to_shot_ratio_team_id_min(season_games[true])).to eq(9)
+    it "can find least_accurate_team" do
+      team_result_parser = TeamResultParser.new
+      team_result_parser.get_game_team_info(@game_teams_path)
+      game_parser = GameParser.new
+      
+      game_parser.get_game_info(@game_path)
+      season_games = game_parser.get_season_games("20132014")
+      expect(team_result_parser.goal_to_shot_ratio_team_id_min(season_games[true])).to eq(9)
 
-    season_games = game_parser.get_season_games("20142015")
-    expect(team_result_parser.goal_to_shot_ratio_team_id_min(season_games[true])).to eq(53)
+      season_games = game_parser.get_season_games("20142015")
+      expect(team_result_parser.goal_to_shot_ratio_team_id_min(season_games[true])).to eq(53)
+    end
   end
 end

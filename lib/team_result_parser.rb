@@ -1,8 +1,14 @@
+# This class will pull from game_teams.csv.
+# We need game_id, team_id, HoA, result, head_coach, goals, shots, tackles
+
 require "csv"
 require_relative './team_result'
 require_relative './league_parser'
+
 class TeamResultParser
+
   attr_reader :game_data_by_team
+
   def initialize
     @game_data_by_team = []
     @league_parser = LeagueParser.new
@@ -16,20 +22,12 @@ class TeamResultParser
       team_id = row[:team_id]
       hoa = row[:hoa]
       result = row[:result]
-      settled_in = row[:settled_in]
       head_coach = row[:head_coach]
       goals = row[:goals]
       shots = row[:shots]
       tackles = row[:tackles]
-      pim = row[:pim]
-      powerPlayOpportunities = row[:powerPlayOpportunities]
-      powerPlayGoals = row[:powerPlayGoals]
-      faceOffWinPercentage = row[:faceOffWinPercentage]
-      giveaways = row[:giveaways]
-      takeaways = row[:takeaways]
-      game = TeamResult.new(game_id,team_id,hoa,result,settled_in,
-      head_coach,goals,shots,tackles,pim,powerPlayOpportunities,
-      powerPlayGoals,faceOffWinPercentage,giveaways,takeaways)
+      game = TeamResult.new(game_id,team_id,hoa,result,
+      head_coach,goals,shots,tackles)
       @game_data_by_team << game
     end
   end
@@ -96,7 +94,7 @@ class TeamResultParser
         end
       end
     end
-    # Add default value for hash (Hash.new(0))
+
     coach_played = {}
     games_played.each do |play|
       if coach_played[play.head_coach] == nil
@@ -117,7 +115,7 @@ class TeamResultParser
       end
     end
     win_percent = {}
-    #.merge with hashes
+
     coach_played.each do |play_k, play_v|
       coach_win.each do |win_k, win_v|
         if play_k == win_k
@@ -284,13 +282,11 @@ class TeamResultParser
     goals_by_team = Hash.new(0)
     @game_data_by_team.each do |game|
       season_games.each do |season_game|
-        # require 'pry'; binding.pry
         if game.game_id == season_game.game_id
           goals_by_team[game.team_id.to_i] += game.goals.to_i
         end
       end
     end
-    # require 'pry'; binding.pry
     goals_by_team
   end
 
@@ -313,7 +309,6 @@ class TeamResultParser
     c = a.merge(b) { |team_ids, goals, shots| goals.to_f / shots.to_f }
 
     c.key(c.values.max)
-    # require 'pry'; binding.pry
   end
 
   def goal_to_shot_ratio_team_id_min(season_games)
@@ -323,6 +318,5 @@ class TeamResultParser
     c = a.merge(b) { |team_ids, goals, shots| goals.to_f / shots.to_f }
 
     c.key(c.values.min)
-    # require 'pry'; binding.pry
   end
 end
