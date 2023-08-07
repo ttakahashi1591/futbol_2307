@@ -96,28 +96,18 @@ class TeamResultParser
         end
       end
     end
-    # Add default value for hash (Hash.new(0))
-    coach_played = {}
+    coach_played = Hash.new(0)
     games_played.each do |play|
-      if coach_played[play.head_coach] == nil
-        coach_played[play.head_coach] = 1
-      else
-        coach_played[play.head_coach] += 1
-      end
+      coach_played[play.head_coach] += 1
     end
     win_games = games_played.find_all do |w_game|
       w_game.result == "WIN"
     end
-    coach_win = {}
+    coach_win = Hash.new(0)
     win_games.each do |win|
-      if coach_win[win.head_coach] == nil
-        coach_win[win.head_coach] = 1
-      else
-        coach_win[win.head_coach] += 1
-      end
+      coach_win[win.head_coach] += 1
     end
-    win_percent = {}
-    #.merge with hashes
+    win_percent = Hash.new(0)
     coach_played.each do |play_k, play_v|
       coach_win.each do |win_k, win_v|
         if play_k == win_k
