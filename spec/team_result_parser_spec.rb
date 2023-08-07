@@ -20,7 +20,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#Averages" do
+  describe "#Averages" do
     it "get average for home wins and away wins and ties" do
       team_result_parser = TeamResultParser.new
       expect(team_result_parser).to be_a TeamResultParser
@@ -33,7 +33,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#get_win_percentage" do
+  describe "#get_win_percentage" do
     it "provides a hash with coach and win percentage" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
@@ -46,7 +46,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#get_win_games_from_season" do
+  describe "#get_win_games_from_season" do
     it "provides a string with the coach with the highest percentage" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
@@ -60,7 +60,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#get_lose_games_from_season" do
+  describe "#get_lose_games_from_season" do
     it "provides a string with the coach with the lowest percentage" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
@@ -74,7 +74,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#offense" do
+  describe "#offense" do
     it "can find the best and worst offenses" do
       league_parser = LeagueParser.new
       team_result_parser = TeamResultParser.new
@@ -87,7 +87,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#scoring_teams" do
+  describe "#scoring_teams" do
     it "can return #highest_scoring_home_team" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
@@ -125,7 +125,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#helper_method" do
+  describe "#helper_method" do
     it "can #find_best_worst_offense_team_id_by_location" do
       team_result_parser = TeamResultParser.new
 
@@ -364,7 +364,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#Tackles" do
+  describe "#Tackles" do
     it "get list of tackles, most and least in season" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
@@ -384,7 +384,6 @@ RSpec.describe TeamResultParser do
       game_parser = GameParser.new
     
       game_parser.get_game_info(@game_path)
-      # game_parser.get_season_games("20132014")
       season_games = game_parser.get_season_games("20132014")
       expect(team_result_parser.get_season_goals(season_games[true])).to be_a(Hash)
     end

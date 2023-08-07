@@ -1,5 +1,5 @@
 # This class is pulling data from games.csv (or its fixture for testing purposes)
-# We will use game_id, season, away_team_id, hone_team_id, away_goals, home_goals
+# We will use game_id, season, away_team_id, home_team_id, away_goals, home_goals
 
 require "csv"
 require_relative './game'
@@ -14,14 +14,11 @@ class GameParser
     contents.each do |row|
       game_id = row[:game_id]
       season = row[:season]
-      type = row[:type]
-      date_time = row[:date_time]
       away_team_id = row[:away_team_id]
       home_team_id = row[:home_team_id]
       away_goals = row[:away_goals]
       home_goals = row[:home_goals]
-      venue = row[:venue]
-      game = Game.new(game_id, season, type, date_time, away_team_id, home_team_id, away_goals, home_goals, venue)
+      game = Game.new(game_id, season, away_team_id, home_team_id, away_goals, home_goals)
       @games << game
     end
   end
