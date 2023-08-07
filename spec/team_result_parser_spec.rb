@@ -20,7 +20,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#Averages" do
+  describe "#Averages" do
     it "get average for home wins and away wins and ties" do
       team_result_parser = TeamResultParser.new
       expect(team_result_parser).to be_a TeamResultParser
@@ -33,7 +33,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#get_win_percentage" do
+  describe "#get_win_percentage" do
     it "provides a hash with coach and win percentage" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
@@ -46,7 +46,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#get_win_games_from_season" do
+  describe "#get_win_games_from_season" do
     it "provides a string with the coach with the highest percentage" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
@@ -60,7 +60,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#get_lose_games_from_season" do
+  describe "#get_lose_games_from_season" do
     it "provides a string with the coach with the lowest percentage" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
@@ -74,7 +74,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#offense" do
+  describe "#offense" do
     it "can find the best and worst offenses" do
       league_parser = LeagueParser.new
       team_result_parser = TeamResultParser.new
@@ -87,7 +87,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#scoring_teams" do
+  describe "#scoring_teams" do
     it "can return #highest_scoring_home_team" do
       team_result_parser = TeamResultParser.new
       league_parser = LeagueParser.new
@@ -125,7 +125,7 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#helper_method" do
+  describe "#helper_method" do
     it "can #find_best_worst_offense_team_id_by_location" do
       team_result_parser = TeamResultParser.new
 
@@ -364,12 +364,12 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  xdescribe "#Tackles" do
+  describe "#Tackles" do
     it "get list of tackles, most and least in season" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
 
-      game = Game.new("2012030221", "20122013", "", "", "", "", "", "", "")
+      game = Game.new("2012030221", "20122013", "", "", "", "")
 
       expect(team_result_parser.get_tackles_in_season([game])).to be_a(Hash)
       expect(team_result_parser.most_tackles_in_season_team_id([game])).to eq(6)
@@ -378,20 +378,19 @@ RSpec.describe TeamResultParser do
   end
 
   describe "#get_season_goals" do
-    it "get list of goals, most and least in season" do
+    it "get list of goals" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
       game_parser = GameParser.new
     
       game_parser.get_game_info(@game_path)
-      # game_parser.get_season_games("20132014")
       season_games = game_parser.get_season_games("20132014")
       expect(team_result_parser.get_season_goals(season_games[true])).to be_a(Hash)
     end
   end
 
   describe "#get_season_shots" do
-    it "get list of shots, most and least in season" do
+    it "get list of shots" do
       team_result_parser = TeamResultParser.new
       team_result_parser.get_game_team_info(@game_teams_path)
       game_parser = GameParser.new
@@ -402,29 +401,31 @@ RSpec.describe TeamResultParser do
     end
   end
 
-  it "can find most_accurate_team" do
-    team_result_parser = TeamResultParser.new
-    team_result_parser.get_game_team_info(@game_teams_path)
-    game_parser = GameParser.new
-    
-    game_parser.get_game_info(@game_path)
-    season_games = game_parser.get_season_games("20132014")
-    expect(team_result_parser.goal_to_shot_ratio_team_id_max(season_games[true])).to eq(24)
+  describe "most and least accurate team" do
+    it "can find most_accurate_team" do
+      team_result_parser = TeamResultParser.new
+      team_result_parser.get_game_team_info(@game_teams_path)
+      game_parser = GameParser.new
+      
+      game_parser.get_game_info(@game_path)
+      season_games = game_parser.get_season_games("20132014")
+      expect(team_result_parser.goal_to_shot_ratio_team_id_max(season_games[true])).to eq(24)
 
-    season_games = game_parser.get_season_games("20142015")
-    expect(team_result_parser.goal_to_shot_ratio_team_id_max(season_games[true])).to eq(20)
-  end
+      season_games = game_parser.get_season_games("20142015")
+      expect(team_result_parser.goal_to_shot_ratio_team_id_max(season_games[true])).to eq(20)
+    end
 
-  it "can find least_accurate_team" do
-    team_result_parser = TeamResultParser.new
-    team_result_parser.get_game_team_info(@game_teams_path)
-    game_parser = GameParser.new
-    
-    game_parser.get_game_info(@game_path)
-    season_games = game_parser.get_season_games("20132014")
-    expect(team_result_parser.goal_to_shot_ratio_team_id_min(season_games[true])).to eq(9)
+    it "can find least_accurate_team" do
+      team_result_parser = TeamResultParser.new
+      team_result_parser.get_game_team_info(@game_teams_path)
+      game_parser = GameParser.new
+      
+      game_parser.get_game_info(@game_path)
+      season_games = game_parser.get_season_games("20132014")
+      expect(team_result_parser.goal_to_shot_ratio_team_id_min(season_games[true])).to eq(9)
 
-    season_games = game_parser.get_season_games("20142015")
-    expect(team_result_parser.goal_to_shot_ratio_team_id_min(season_games[true])).to eq(53)
+      season_games = game_parser.get_season_games("20142015")
+      expect(team_result_parser.goal_to_shot_ratio_team_id_min(season_games[true])).to eq(53)
+    end
   end
 end
